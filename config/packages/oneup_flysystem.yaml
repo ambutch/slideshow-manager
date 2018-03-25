@@ -1,0 +1,22 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
+oneup_flysystem:
+    adapters:
+        photos_adapter:
+            local:
+                directory: '%env(resolve:SOURCE_DIR)%'
+        cache_adapter:
+            local:
+                directory: "%kernel.root_dir%/var/img_cache"
+        slideshow_adapter:
+            local:
+                directory: '%env(resolve:SLIDE_SHOW_DIR)%'
+    filesystems:
+        photos_filesystem:
+            adapter: photos_adapter
+            alias: photos_filesystem
+        cache_filesystem:
+            adapter: cache_adapter
+            alias: cache_filesystem
+        slideshow_filesystem:
+            adapter: slideshow_adapter
+            alias: slideshow_filesystem
