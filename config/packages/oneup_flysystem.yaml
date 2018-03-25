@@ -6,7 +6,7 @@ oneup_flysystem:
                 directory: '%env(resolve:SOURCE_DIR)%'
         cache_adapter:
             local:
-                directory: "%kernel.root_dir%/var/img_cache"
+                directory: "%kernel.root_dir%/../var/img_cache"
         slideshow_adapter:
             local:
                 directory: '%env(resolve:SLIDE_SHOW_DIR)%'
