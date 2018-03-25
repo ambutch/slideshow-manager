@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use App\Helper\DirectoryAuditor;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as ORM_Extra;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DirectoryRepository")
@@ -85,7 +84,7 @@ class Directory
         $this->photos = new ArrayCollection();
         $this->children = new ArrayCollection();
 
-        if(null !== $parent) {
+        if (null !== $parent) {
             $this->id = Uuid::uuid5($parent->getId(), $name);
             $this->parent = $parent;
         } else {

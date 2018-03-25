@@ -115,9 +115,11 @@ class DirectoryScanner
         $directory = $this->synchronizeDirectoryData($directory, $auditResult);
 
         if ($recurse ?: false) {
-            foreach ($directory->getChildDirectories() as $childDirectory) {
-                /** @var Directory $childDirectory */
-                $this->scanDirectory($childDirectory, true, $path);
+            $childDirectories = $this->directoryRepository->getChildren($directory, true);
+            if(\is_array($childDirectories)) {
+                foreach ($childDirectories as $childDirectory) {
+                    $this->scanDirectory($childDirectory, true, $path);
+                }
             }
         }
     }
@@ -167,7 +169,7 @@ class DirectoryScanner
 
         foreach ($audit->getNewChildNames() as $name) {
             $child = new Directory($name, $directory);
-            $this->directoryRepository->persistAsLastChildOf($child, $directory);
+            $this->entityManager->persist($child);
         }
         foreach ($audit->getNewPhotoNames() as $name) {
             $path = $audit->getPhotoPathByName($name);
