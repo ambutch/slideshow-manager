@@ -6,6 +6,7 @@ namespace App\Repository;
 use App\Entity\Directory;
 use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -33,7 +34,7 @@ class PhotoRepository extends ServiceEntityRepository
      */
     public function setPublished(Photo $photo, bool $state): ?string
     {
-        if($state) {
+        if ($state) {
             /** @var DirectoryRepository $directoryRepo */
             $directoryRepo = $this->getEntityManager()->getRepository(Directory::class);
             $path = $directoryRepo->getNamePath($photo->getParent()) . $photo->getBaseName();
@@ -42,6 +43,21 @@ class PhotoRepository extends ServiceEntityRepository
         }
         $photo->setPublished($path);
         return $path;
+    }
+
+    /**
+     * @param UuidInterface $id
+     * @return Photo|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneById(UuidInterface $id): ?Photo
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id->toString())
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
 //    /**

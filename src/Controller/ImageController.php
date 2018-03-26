@@ -6,7 +6,10 @@
 namespace App\Controller;
 
 
+use App\Repository\PhotoRepository;
 use League\Glide\Server as Glide;
+use LogicException;
+use Ramsey\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +27,7 @@ class ImageController extends Controller
      * @param bool|null $crop
      * @return array
      */
-    public static function buildImageParameters(Request $request, bool $crop = null): array
+    protected static function buildImageParameters(Request $request, bool $crop = null): array
     {
         $parameters = [];
         $width = $request->get('w');
@@ -39,30 +42,42 @@ class ImageController extends Controller
     }
 
     /** @noinspection PhpMethodNamingConventionInspection
-     * @Route("/image/thumbnail/{path}", name="image_thumbnail")
-     * @param string $path
+     * @Route("/image/thumbnail/{id}", name="image_thumbnail")
+     * @param string $id
      * @param Request $request
      * @param Glide $glide
+     * @param PhotoRepository $photoRepository
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \LogicException
      * @throws \InvalidArgumentException
      */
-    public function imageThumbnail(string $path, Request $request, Glide $glide): Response
+    public function imageThumbnail(string $id, Request $request, Glide $glide, PhotoRepository $photoRepository): Response
     {
+        if(null === ($photo = $photoRepository->findOneById(Uuid::fromString($id)))) {
+            throw new LogicException("Photo with id: `$id` could not be found");
+        }
         $parameters = self::buildImageParameters($request, true);
-        return $glide->getImageResponse($path, $parameters);
+        return $glide->getImageResponse($photo->getFullPath(), $parameters);
     }
 
     /** @noinspection PhpMethodNamingConventionInspection
-     * @Route("/image/preview/{path}", name="image_preview")
-     * @param string $path
+     * @Route("/image/preview/{id}", name="image_preview")
+     * @param string $id
      * @param Request $request
      * @param Glide $glide
+     * @param PhotoRepository $photoRepository
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \LogicException
      * @throws \InvalidArgumentException
      */
-    public function imagePreview(string $path, Request $request, Glide $glide): Response
+    public function imagePreview(string $id, Request $request, Glide $glide, PhotoRepository $photoRepository): Response
     {
+        if(null === ($photo = $photoRepository->findOneById(Uuid::fromString($id)))) {
+            throw new LogicException("Photo with id: `$id` could not be found");
+        }
         $parameters = self::buildImageParameters($request, false);
-        return $glide->getImageResponse($path, $parameters);
+        return $glide->getImageResponse($photo->getFullPath(), $parameters);
     }
 }
