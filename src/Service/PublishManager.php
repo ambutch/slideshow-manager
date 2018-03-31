@@ -54,6 +54,32 @@ class PublishManager
     protected $maxHeight;
 
     /**
+     * PublishManager constructor.
+     * @param PhotoRepository $photoRepo
+     * @param FilesystemInterface $srcFileSystem
+     * @param FilesystemInterface $dstFileSystem
+     * @param int $maxWidth
+     * @param int $maxHeight
+     */
+    public function __construct(
+        PhotoRepository $photoRepo,
+        FilesystemInterface $srcFileSystem,
+        FilesystemInterface $dstFileSystem,
+        int $maxWidth,
+        int $maxHeight
+    )
+    {
+        $this->photoRepo = $photoRepo;
+        $this->srcFileSystem = $srcFileSystem;
+        $this->dstFileSystem = $dstFileSystem;
+        $this->maxWidth = $maxWidth;
+        $this->maxHeight = $maxHeight;
+
+        $this->imageManager = new ImageManager();
+    }
+
+
+    /**
      * @param Photo $photo
      * @param bool $state
      * @throws \League\Flysystem\FileExistsException
