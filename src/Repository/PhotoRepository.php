@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 
-use App\Entity\Directory;
 use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Ramsey\Uuid\UuidInterface;
@@ -29,20 +28,13 @@ class PhotoRepository extends ServiceEntityRepository
     /**
      * @param Photo $photo
      * @param bool $state
-     * @return null|string
-     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
      */
-    public function setPublished(Photo $photo, bool $state): ?string
+    public function setPublished(Photo $photo, bool $state): void
     {
-        if ($state) {
-            /** @var DirectoryRepository $directoryRepo */
-            $directoryRepo = $this->getEntityManager()->getRepository(Directory::class);
-            $path = $directoryRepo->getNamePath($photo->getParent()) . $photo->getBaseName();
-        } else {
-            $path = null;
-        }
-        $photo->setPublished($path);
-        return $path;
+        $photo->setPublished($state);
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -56,8 +48,21 @@ class PhotoRepository extends ServiceEntityRepository
             ->andWhere('p.id = :id')
             ->setParameter('id', $id->toString())
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @param string $fullPath
+     * @return Photo|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByFullPath(string $fullPath): ?Photo
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.fullPath = :fullPath')
+            ->setParameter('fullPath', $fullPath)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

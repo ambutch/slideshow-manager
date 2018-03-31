@@ -21,9 +21,9 @@ use LogicException;
  */
 class DirectoryScanner
 {
-    private const TYPE_DIR = 'dir';
-    private const TYPE_FILE = 'file';
-    private const TYPE_IMAGE_JPEG = 'image/jpeg';
+    protected const TYPE_DIR = 'dir';
+    protected const TYPE_FILE = 'file';
+    protected const TYPE_IMAGE_JPEG = 'image/jpeg';
 
     /**
      * @var EntityManager

@@ -7,29 +7,38 @@ namespace App\Command;
 
 
 use App\Service\DirectoryScanner;
+use App\Service\PublishManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ScanCommand
+ * Class SynchronizeCommand
  * @package App\Command
  */
-class ScanCommand extends Command
+class SynchronizeCommand extends Command
 {
+
     /**
      * @var DirectoryScanner
      */
     protected $directoryScanner;
 
     /**
-     * ScanCommand constructor.
+     * @var PublishManager
+     */
+    protected $publishManager;
+
+    /**
+     * SynchronizeCommand constructor.
      * @param DirectoryScanner $directoryScanner
+     * @param PublishManager $publishManager
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct(DirectoryScanner $directoryScanner)
+    public function __construct(DirectoryScanner $directoryScanner, PublishManager $publishManager)
     {
         $this->directoryScanner = $directoryScanner;
+        $this->publishManager = $publishManager;
         parent::__construct();
     }
 
@@ -39,8 +48,8 @@ class ScanCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('app:scan')
-            ->setDescription('Scans the photo source directory.')
+            ->setName('app:sync')
+            ->setDescription('Scans the photo source directory. Synchronizes the destination directory.')
             ->setHelp('This command scans the photo source directory and updates the DB with actual data')
         ;
     }
@@ -48,7 +57,9 @@ class ScanCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return void
+     * @throws \RuntimeException
+     * @throws \League\Flysystem\FileExistsException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
      * @throws \LogicException
@@ -58,6 +69,7 @@ class ScanCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->directoryScanner->scan();
+        $this->publishManager->sunchronyzeWithDb();
         $output->writeln('Done!');
     }
 }
