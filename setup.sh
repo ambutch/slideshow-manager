@@ -7,10 +7,10 @@ then
 fi
 
 # Create DB
-/usr/bin/env php bin/console doctrine:database:create
+bin/console doctrine:database:create
 
 # Create DB structure
-/usr/bin/env php bin/console doctrine:migrations:migrate
+bin/console doctrine:migrations:migrate
 
 # Scan directory for files
-/usr/bin/env php bin/console app:sync
+bin/console app:sync
