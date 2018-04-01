@@ -70,8 +70,7 @@ class DirectoryRepository extends NestedTreeRepository implements ServiceEntityR
             ->andWhere('d.id = :id')
             ->setParameter('id', $id->toString())
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
 //    /**

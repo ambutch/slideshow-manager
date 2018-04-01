@@ -50,7 +50,7 @@ class DirectoryAuditor
      */
     public function checkChildName(string $name): void
     {
-        if(\array_key_exists($name, $this->deletedChildren)) {
+        if (\array_key_exists($name, $this->deletedChildren)) {
             unset($this->deletedChildren[$name]);
         } else {
             $this->newChildNames[] = $name;
@@ -63,7 +63,7 @@ class DirectoryAuditor
      */
     public function checkPhotoName(string $name, string $path): void
     {
-        if(\array_key_exists($name, $this->deletedPhotos)) {
+        if (\array_key_exists($name, $this->deletedPhotos)) {
             unset($this->deletedPhotos[$name]);
         } else {
             $this->newPhotoPaths[$name] = $path;

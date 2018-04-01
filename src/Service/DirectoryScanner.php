@@ -116,7 +116,7 @@ class DirectoryScanner
 
         if ($recurse ?: false) {
             $childDirectories = $this->directoryRepository->getChildren($directory, true);
-            if(\is_array($childDirectories)) {
+            if (\is_array($childDirectories)) {
                 foreach ($childDirectories as $childDirectory) {
                     $this->scanDirectory($childDirectory, true, $path);
                 }

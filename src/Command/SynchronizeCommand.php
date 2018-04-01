@@ -50,8 +50,7 @@ class SynchronizeCommand extends Command
         $this
             ->setName('app:sync')
             ->setDescription('Scans the photo source directory. Synchronizes the destination directory.')
-            ->setHelp('This command scans the photo source directory and updates the DB with actual data')
-        ;
+            ->setHelp('This command scans the photo source directory and updates the DB with actual data');
     }
 
     /**
