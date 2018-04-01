@@ -189,9 +189,9 @@ class PublishManager
     protected function resizeImage(Image $image): void
     {
         $image->orientate();
+
         $widthRatio = $image->getWidth() / $this->maxWidth;
         $heightRatio = $image->getHeight() / $this->maxHeight;
-
         if ($widthRatio < 1 || $heightRatio < 1) {
             return;
         }
