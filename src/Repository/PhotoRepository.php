@@ -16,6 +16,8 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class PhotoRepository extends ServiceEntityRepository
 {
+
+
     /**
      * PhotoRepository constructor.
      * @param RegistryInterface $registry
@@ -35,6 +37,18 @@ class PhotoRepository extends ServiceEntityRepository
     {
         $photo->setPublished($state);
         $this->getEntityManager()->flush();
+    }
+
+    /**
+     * @return Photo[]
+     */
+    public function findAllPublished(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.published = :published')
+            ->setParameter('published', true)
+            ->getQuery()
+            ->getResult();
     }
 
     /**

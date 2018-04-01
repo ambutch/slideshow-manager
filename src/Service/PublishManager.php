@@ -9,9 +9,9 @@ namespace App\Service;
 use App\Entity\Photo;
 use App\Repository\PhotoRepository;
 use Intervention\Image\Image;
+use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemInterface;
 use RuntimeException;
-use Intervention\Image\ImageManager;
 
 /**
  * Class PublishManager
@@ -89,12 +89,24 @@ class PublishManager
      */
     public function changeState(Photo $photo, bool $state): void
     {
-        if($state) {
+        if ($state) {
             $this->publishPhoto($photo);
         } else {
             $this->unpublishPhoto($photo);
         }
         $this->photoRepo->setPublished($photo, $state);
+    }
+
+    /**
+     * @throws \RuntimeException
+     * @throws \League\Flysystem\FileExistsException
+     * @throws \League\Flysystem\FileNotFoundException
+     */
+    public function republishAll(): void
+    {
+        foreach ($this->photoRepo->findAllPublished() as $photo) {
+            $this->publishPhoto($photo);
+        }
     }
 
     /**
@@ -119,12 +131,12 @@ class PublishManager
 
         foreach ($this->photoRepo->findAll() as $photo) {
             $fullPath = $photo->getFullPath();
-            if($photo->isPublished()) {
-                if(!$this->dstFileSystem->has($fullPath)) {
+            if ($photo->isPublished()) {
+                if (!$this->dstFileSystem->has($fullPath)) {
                     $this->publishPhoto($photo);
                 }
             } else {
-                if($this->dstFileSystem->has($fullPath)) {
+                if ($this->dstFileSystem->has($fullPath)) {
                     $this->unpublishPhoto($photo);
                 }
             }
@@ -141,17 +153,17 @@ class PublishManager
     {
         $fullPath = $photo->getFullPath();
 
-        if(!$this->srcFileSystem->has($fullPath)) {
+        if (!$this->srcFileSystem->has($fullPath)) {
             throw new RuntimeException('Source file does not exist');
         }
-        if(false === ($imageData = $this->srcFileSystem->read($fullPath))) {
+        if (false === ($imageData = $this->srcFileSystem->read($fullPath))) {
             throw new RuntimeException('Source file cannot be read');
         }
 
         $image = $this->imageManager->make($imageData);
         $this->resizeImage($image);
 
-        if($this->dstFileSystem->has($fullPath)) {
+        if ($this->dstFileSystem->has($fullPath)) {
             $this->dstFileSystem->delete($fullPath);
         }
 
@@ -166,7 +178,7 @@ class PublishManager
     protected function unpublishPhoto(Photo $photo): void
     {
         $fullPath = $photo->getFullPath();
-        if($this->dstFileSystem->has($fullPath) && false === $this->dstFileSystem->delete($fullPath)) {
+        if ($this->dstFileSystem->has($fullPath) && false === $this->dstFileSystem->delete($fullPath)) {
             throw new RuntimeException("Unable to delete destination file: $fullPath");
         }
     }
@@ -179,11 +191,11 @@ class PublishManager
         $widthRatio = $image->getWidth() / $this->maxWidth;
         $heightRatio = $image->getHeight() / $this->maxHeight;
 
-        if($widthRatio < 1 || $heightRatio < 1) {
+        if ($widthRatio < 1 || $heightRatio < 1) {
             return;
         }
 
-        if($widthRatio < $heightRatio) {
+        if ($widthRatio < $heightRatio) {
             /** @noinspection PhpParamsInspection */
             $image->widen($this->maxWidth);
         } else {
