@@ -6,6 +6,8 @@ then
   exit
 fi
 
+composer install
+
 # Create DB
 bin/console doctrine:database:create
 

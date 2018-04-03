@@ -2,6 +2,8 @@
 
 git pull origin master
 
+composer install
+
 # Create DB structure
 bin/console doctrine:migrations:migrate
 
