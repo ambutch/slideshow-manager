@@ -1,7 +1,7 @@
 # Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
 parameters:
     photoDirectoryPath: '%env(resolve:SOURCE_DIR)%'
-    cacheDirectoryPath: "%kernel.root_dir%/../var/img_cache"
+    cacheDirectoryPath: '%env(resolve:CACHE_DIR)%'
     showDirectoryPath: '%env(resolve:SLIDE_SHOW_DIR)%'
 
 oneup_flysystem:
