@@ -15,6 +15,9 @@ oneup_flysystem:
         slideshow_adapter:
             local:
                 directory: '%showDirectoryPath%'
+        pseudocache_adapter:
+            memory: ~
+
     filesystems:
         photos_filesystem:
             adapter: photos_adapter
@@ -25,3 +28,6 @@ oneup_flysystem:
         slideshow_filesystem:
             adapter: slideshow_adapter
             alias: slideshow_filesystem
+        pseudocache_filesystem:
+            adapter: pseudocache_adapter
+            alias: pseudocache_filesystem

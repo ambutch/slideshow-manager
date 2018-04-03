@@ -48,13 +48,32 @@ services:
               arguments:
                   - '@League\Glide\Responses\SymfonyResponseFactory'
 
-    App\Service\DirectoryScanner:
-        class: App\Service\DirectoryScanner
+    App\Service\SourceDirectoryManager:
+        class: App\Service\SourceDirectoryManager
         autowire: false
         public: true
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@photos_filesystem'
+
+    App\Service\ImageManipulator:
+        class: App\Service\ImageManipulator
+        autowire: false
+        public: true
+        arguments:
+            - '@photos_filesystem'
+            - '@pseudocache_filesystem'
+            - '@League\Glide\Api\Api'
+        calls:
+            - method: setDefaults
+              arguments:
+                  -
+                      w: '%maxPhotoWidth%'
+                      h: '%maxPhotoHeight%'
+                      fit: max
+            - method: setDestination
+              arguments:
+                  - '@slideshow_filesystem'
 
     App\Service\PublishManager:
         class: App\Service\PublishManager
@@ -62,9 +81,4 @@ services:
         public: true
         arguments:
             - '@App\Repository\PhotoRepository'
-            - '@photos_filesystem'
-            - '@slideshow_filesystem'
-            - '%maxPhotoWidth%'
-            - '%maxPhotoHeight%'
-
-
+            - '@App\Service\ImageManipulator'

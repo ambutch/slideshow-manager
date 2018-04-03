@@ -16,10 +16,10 @@ use League\Flysystem\FilesystemInterface;
 use LogicException;
 
 /**
- * Class DirectoryScanner
+ * Class SourceDirectoryManager
  * @package App\Services
  */
-class DirectoryScanner
+class SourceDirectoryManager
 {
     protected const TYPE_DIR = 'dir';
     protected const TYPE_FILE = 'file';
@@ -46,7 +46,7 @@ class DirectoryScanner
     protected $fileSystem;
 
     /**
-     * DirectoryScanner constructor.
+     * SourceDirectoryManager constructor.
      * @param EntityManager $entityManager
      * @param FilesystemInterface $fileSystem
      */
@@ -57,7 +57,6 @@ class DirectoryScanner
         $this->directoryRepository = $this->entityManager->getRepository(Directory::class);
         $this->photoRepository = $this->entityManager->getRepository(Photo::class);
     }
-
 
     /**
      * @param Directory|null $directory

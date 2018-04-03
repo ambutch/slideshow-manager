@@ -6,8 +6,8 @@
 namespace App\Command;
 
 
-use App\Service\DirectoryScanner;
 use App\Service\PublishManager;
+use App\Service\SourceDirectoryManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,9 +20,9 @@ class SynchronizeCommand extends Command
 {
 
     /**
-     * @var DirectoryScanner
+     * @var SourceDirectoryManager
      */
-    protected $directoryScanner;
+    protected $directoryManager;
 
     /**
      * @var PublishManager
@@ -31,14 +31,14 @@ class SynchronizeCommand extends Command
 
     /**
      * SynchronizeCommand constructor.
-     * @param DirectoryScanner $directoryScanner
+     * @param SourceDirectoryManager $directoryScanner
      * @param PublishManager $publishManager
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct(DirectoryScanner $directoryScanner, PublishManager $publishManager)
+    public function __construct(SourceDirectoryManager $directoryScanner, PublishManager $publishManager)
     {
         parent::__construct();
-        $this->directoryScanner = $directoryScanner;
+        $this->directoryManager = $directoryScanner;
         $this->publishManager = $publishManager;
     }
 
@@ -56,6 +56,8 @@ class SynchronizeCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \RuntimeException
      * @throws \League\Flysystem\FileExistsException
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -67,7 +69,7 @@ class SynchronizeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->directoryScanner->scan();
+        $this->directoryManager->scan();
         $this->publishManager->sunchronyzeWithDb();
         $output->writeln('Done!');
     }

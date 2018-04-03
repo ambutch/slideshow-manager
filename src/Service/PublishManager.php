@@ -8,8 +8,6 @@ namespace App\Service;
 
 use App\Entity\Photo;
 use App\Repository\PhotoRepository;
-use Intervention\Image\Image;
-use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemInterface;
 use RuntimeException;
 
@@ -29,9 +27,9 @@ class PublishManager
     protected $photoRepo;
 
     /**
-     * @var FilesystemInterface
+     * @var ImageManipulator
      */
-    protected $srcFileSystem;
+    protected $imageManipulator;
 
     /**
      * @var FilesystemInterface
@@ -39,49 +37,22 @@ class PublishManager
     protected $dstFileSystem;
 
     /**
-     * @var ImageManager
-     */
-    protected $imageManager;
-
-    /**
-     * @var int
-     */
-    protected $maxWidth;
-
-    /**
-     * @var int
-     */
-    protected $maxHeight;
-
-    /**
      * PublishManager constructor.
      * @param PhotoRepository $photoRepo
-     * @param FilesystemInterface $srcFileSystem
-     * @param FilesystemInterface $dstFileSystem
-     * @param int $maxWidth
-     * @param int $maxHeight
+     * @param ImageManipulator $imageManipulator
      */
-    public function __construct(
-        PhotoRepository $photoRepo,
-        FilesystemInterface $srcFileSystem,
-        FilesystemInterface $dstFileSystem,
-        int $maxWidth,
-        int $maxHeight
-    )
+    public function __construct(PhotoRepository $photoRepo, ImageManipulator $imageManipulator)
     {
         $this->photoRepo = $photoRepo;
-        $this->srcFileSystem = $srcFileSystem;
-        $this->dstFileSystem = $dstFileSystem;
-        $this->maxWidth = $maxWidth;
-        $this->maxHeight = $maxHeight;
-
-        $this->imageManager = new ImageManager();
+        $this->imageManipulator = $imageManipulator;
+        $this->dstFileSystem = $imageManipulator->getDestination();
     }
-
 
     /**
      * @param Photo $photo
      * @param bool $state
+     * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Flysystem\FileExistsException
      * @throws \RuntimeException
      * @throws \Doctrine\ORM\ORMException
@@ -98,6 +69,8 @@ class PublishManager
     }
 
     /**
+     * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \RuntimeException
      * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
@@ -110,6 +83,8 @@ class PublishManager
     }
 
     /**
+     * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \League\Flysystem\FileExistsException
      * @throws \RuntimeException
@@ -145,29 +120,15 @@ class PublishManager
 
     /**
      * @param Photo $photo
-     * @throws \League\Flysystem\FileExistsException
+     * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \RuntimeException
+     * @throws \League\Flysystem\FileExistsException
      */
     protected function publishPhoto(Photo $photo): void
     {
         $fullPath = $photo->getFullPath();
-
-        if (!$this->srcFileSystem->has($fullPath)) {
-            throw new RuntimeException('Source file does not exist');
-        }
-        if (false === ($imageData = $this->srcFileSystem->read($fullPath))) {
-            throw new RuntimeException('Source file cannot be read');
-        }
-
-        $image = $this->imageManager->make($imageData);
-        $this->resizeImage($image);
-
-        if ($this->dstFileSystem->has($fullPath)) {
-            $this->dstFileSystem->delete($fullPath);
-        }
-
-        $this->dstFileSystem->write($fullPath, $image->encode(self::IMAGE_FORMAT));
+        $this->imageManipulator->publishImage($fullPath, []);
     }
 
     /**
@@ -180,28 +141,6 @@ class PublishManager
         $fullPath = $photo->getFullPath();
         if ($this->dstFileSystem->has($fullPath) && false === $this->dstFileSystem->delete($fullPath)) {
             throw new RuntimeException("Unable to delete destination file: $fullPath");
-        }
-    }
-
-    /**
-     * @param Image $image
-     */
-    protected function resizeImage(Image $image): void
-    {
-        $image->orientate();
-
-        $widthRatio = $image->getWidth() / $this->maxWidth;
-        $heightRatio = $image->getHeight() / $this->maxHeight;
-        if ($widthRatio < 1 || $heightRatio < 1) {
-            return;
-        }
-
-        if ($widthRatio < $heightRatio) {
-            /** @noinspection PhpParamsInspection */
-            $image->widen($this->maxWidth);
-        } else {
-            /** @noinspection PhpParamsInspection */
-            $image->heighten($this->maxHeight);
         }
     }
 }

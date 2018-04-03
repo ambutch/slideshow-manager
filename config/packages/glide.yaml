@@ -3,12 +3,11 @@ services:
     Intervention\Image\ImageManager:
         class: Intervention\Image\ImageManager
 
+    League\Glide\Manipulators\Orientation:
+        class: League\Glide\Manipulators\Orientation
+
     League\Glide\Manipulators\Crop:
         class: League\Glide\Manipulators\Crop
-
-    League\Glide\Manipulators\Size:
-        class: League\Glide\Manipulators\Size
-        arguments: [ 4000000 ]
 
     League\Glide\Manipulators\Encode:
         class: League\Glide\Manipulators\Encode
@@ -18,8 +17,8 @@ services:
         arguments:
             - '@Intervention\Image\ImageManager'
             -
+                - '@League\Glide\Manipulators\Orientation'
                 - '@League\Glide\Manipulators\Crop'
-                - '@League\Glide\Manipulators\Size'
                 - '@League\Glide\Manipulators\Encode'
 
     League\Glide\Responses\SymfonyResponseFactory:

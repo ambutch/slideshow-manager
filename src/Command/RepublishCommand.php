@@ -43,6 +43,8 @@ class RepublishCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \RuntimeException
      * @throws \League\Flysystem\FileExistsException
      * @throws \LogicException
