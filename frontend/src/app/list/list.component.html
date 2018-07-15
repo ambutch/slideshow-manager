@@ -1,0 +1,38 @@
+<dx-popup
+        [title]="popUpTitle"
+        [(visible)]="isPopupVisible"
+        [fullScreen]="true"
+        [closeOnBackButton]="true"
+        [closeOnOutsideClick]="true"
+>
+    <div *dxTemplate="let data of 'content'">
+        <div class="image" [(style.background-image)]="popUpImageUrl"></div>
+    </div>
+</dx-popup>
+<dx-tile-view
+        #tileView
+        [height]="390"
+        [baseItemHeight]="120"
+        [baseItemWidth]="185"
+        width="100%"
+        [itemMargin]="10"
+        [direction]="'vertical'"
+        (onItemClick)="onPhotoClick($event)"
+>
+    <dxi-item
+            *ngFor="let photo of photos"
+            [widthRatio]="1"
+            [heightRatio]="1"
+            [dataField]="photo.id"
+    >
+        <div class="image" [style.background-image]="'url(http://localhost:8000/image/thumbnail/' + photo.id + ')'">
+            <dx-check-box
+                    class="status"
+                    [text]=photo.name
+                    [id]=photo.id
+                    [(value)]="photo.published"
+                    (onValueChanged)="onStateChanged($event)"
+            ></dx-check-box>
+        </div>
+    </dxi-item>
+</dx-tile-view>

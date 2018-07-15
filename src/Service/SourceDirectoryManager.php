@@ -11,7 +11,7 @@ use App\Entity\Photo;
 use App\Helper\DirectoryAuditor;
 use App\Repository\DirectoryRepository;
 use App\Repository\PhotoRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use League\Flysystem\FilesystemInterface;
 use LogicException;
 
@@ -26,7 +26,7 @@ class SourceDirectoryManager
     protected const TYPE_IMAGE_JPEG = 'image/jpeg';
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
@@ -47,10 +47,10 @@ class SourceDirectoryManager
 
     /**
      * SourceDirectoryManager constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @param FilesystemInterface $fileSystem
      */
-    public function __construct(EntityManager $entityManager, FilesystemInterface $fileSystem)
+    public function __construct(EntityManagerInterface $entityManager, FilesystemInterface $fileSystem)
     {
         $this->fileSystem = $fileSystem;
         $this->entityManager = $entityManager;

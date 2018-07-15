@@ -1,3 +1,14 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\IndexController::index
+
+api:
+    resource: "@ApiBundle/Resources/config/routing.yml"
+
+image_thumbnail:
+    path: /image/thumbnail/{id}
+    controller: App\Controller\ImageController::imageThumbnail
+
+image_preview:
+    path: /image/preview/{id}
+    controller: App\Controller\ImageController::imagePreview

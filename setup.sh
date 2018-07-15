@@ -16,3 +16,8 @@ bin/console doctrine:migrations:migrate
 
 # Scan directory for files
 bin/console app:sync
+
+# Build the frontend
+cd frontend
+ng build --output-path=../public/spa
+cd ..

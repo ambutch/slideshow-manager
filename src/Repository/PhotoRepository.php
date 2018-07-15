@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -52,17 +53,17 @@ class PhotoRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UuidInterface $id
-     * @return Photo|null
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @param string $id
+     * @return Photo
+     * @throws EntityNotFoundException
      */
-    public function findOneById(UuidInterface $id): ?Photo
+    public function findOneById(string $id): Photo
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.id = :id')
-            ->setParameter('id', $id->toString())
-            ->getQuery()
-            ->getOneOrNullResult();
+        if (null === ($photo = $this->find($id))) {
+            throw new EntityNotFoundException("Photo with id: `$id` could not be found");
+        }
+
+        return $photo;
     }
 
     /**

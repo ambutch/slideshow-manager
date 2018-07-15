@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\Directory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
@@ -50,27 +51,25 @@ class DirectoryRepository extends NestedTreeRepository implements ServiceEntityR
     }
 
     /**
-     * @return Directory|null
+     * @return Directory
+     * @throws EntityNotFoundException
      */
-    public function findOneRoot(): ?Directory
+    public function findOneRoot(): Directory
     {
-        $id = Uuid::fromString(Directory::ROOT_UUID_STRING);
-        return $this->findOneById($id);
+        return $this->findOneById(Directory::ROOT_UUID_STRING);
     }
 
     /** @noinspection PhpDocMissingThrowsInspection
-     * @param UuidInterface $id
-     * @return Directory|null
+     * @param string $id
+     * @return Directory
+     * @throws EntityNotFoundException
      */
-    public function findOneById(UuidInterface $id): ?Directory
+    public function findOneById(string $id): Directory
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        /** @noinspection ExceptionsAnnotatingAndHandlingInspection */
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.id = :id')
-            ->setParameter('id', $id->toString())
-            ->getQuery()
-            ->getOneOrNullResult();
+        if(null === ($directory = $this->find($id))) {
+            throw new EntityNotFoundException("Could not find directory with id: $id");
+        }
+        return $directory;
     }
 
 //    /**

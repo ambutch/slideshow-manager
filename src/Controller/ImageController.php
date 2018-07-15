@@ -64,20 +64,6 @@ class ImageController extends Controller
     }
 
     /**
-     * @param string $id
-     * @return Photo
-     * @throws \LogicException
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     */
-    protected function findPhotoByIdString(string $id): Photo
-    {
-        if (null === ($photo = $this->photoRepository->findOneById(Uuid::fromString($id)))) {
-            throw new LogicException("Photo with id: `$id` could not be found");
-        }
-        return $photo;
-    }
-
-    /**
      * @param Photo $photo
      * @param array $parameters
      * @return Response
@@ -89,33 +75,27 @@ class ImageController extends Controller
     }
 
     /** @noinspection PhpMethodNamingConventionInspection
-     * @Route("/image/thumbnail/{id}", name="image_thumbnail")
      * @param string $id
      * @param Request $request
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \LogicException
-     * @throws \InvalidArgumentException
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function imageThumbnail(string $id, Request $request): Response
     {
-        $photo = $this->findPhotoByIdString($id);
+        $photo = $this->photoRepository->findOneById($id);
         $parameters = self::buildImageParameters($request, true);
         return $this->generateImageResponse($photo, $parameters);
     }
 
     /** @noinspection PhpMethodNamingConventionInspection
-     * @Route("/image/preview/{id}", name="image_preview")
      * @param string $id
      * @param Request $request
      * @return Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \LogicException
-     * @throws \InvalidArgumentException
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function imagePreview(string $id, Request $request): Response
     {
-        $photo = $this->findPhotoByIdString($id);
+        $photo = $this->photoRepository->findOneById($id);
         $parameters = self::buildImageParameters($request, false);
         return $this->generateImageResponse($photo, $parameters);
     }

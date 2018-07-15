@@ -1,0 +1,190 @@
+swagger: '2.0'
+info:
+  title: Slideshow manager
+  description: API for Slideshow manager SPA
+  version: 1.0.0
+
+basePath: /
+schemes:
+  - http
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+
+  /directory_tree:
+    get:
+      tags:
+        - Directory
+      operationId: listDirectoryTree
+      summary: Directory tree
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ListDirectoryTreeResponse'
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /directory/{id}:
+    get:
+      tags:
+        - Directory
+      operationId: listDirectory
+      summary: Directory contents
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          format: uuid
+        - $ref: '#/parameters/listPageNumber'
+        - $ref: '#/parameters/listPageLimit'
+        - $ref: '#/parameters/listSortField'
+        - $ref: '#/parameters/listSortDirection'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ListDirectoryInfoResponse'
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /publish:
+    post:
+      tags:
+        - Photo
+      operationId: publishPhoto
+      summary: Publish photo to slideshow directory
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/PublishPhotoRequest'
+      responses:
+        200:
+          description: OK
+        400:
+          $ref: "#/responses/BadRequest"
+        404:
+          $ref: "#/responses/NotFound"
+
+parameters:
+  listPageNumber:
+    in: query
+    name: page
+    required: false
+    type: integer
+  listPageLimit:
+    in: query
+    name: limit
+    required: false
+    type: integer
+  listSortField:
+    in: query
+    name: sort
+    required: false
+    type: string
+  listSortDirection:
+    in: query
+    name: dir
+    required: false
+    type: string
+    enum: [asc, desc]
+
+responses:
+  BadRequest:
+    description: Bad request
+    schema:
+      $ref: "#/definitions/Error"
+  NotFound:
+    description: The specified resource was not found
+    schema:
+      $ref: "#/definitions/Error"
+
+definitions:
+
+  ListDirectoryTreeResponse:
+    type: object
+    properties:
+      root:
+        $ref: '#/definitions/DirectoryTreeItem'
+
+  ListDirectoryInfoResponse:
+    type: object
+    properties:
+      path:
+        type: string
+      photos:
+        type: array
+        items:
+          $ref: '#/definitions/PhotoInfo'
+    required:
+      - path
+      - photos
+
+  PublishPhotoRequest:
+    type: object
+    properties:
+      photoId:
+        type: string
+        format: uuid
+      published:
+        type: boolean
+    required:
+      - photoId
+      - published
+
+  DirectoryTreeItem:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
+      children:
+        type: array
+        items:
+          $ref: '#/definitions/DirectoryTreeItem'
+    required:
+      - id
+      - name
+      - children
+
+  PhotoInfo:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      name:
+        type: string
+      published:
+        type: boolean
+    required:
+      - id
+      - name
+      - published
+
+  # Errors
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    required:
+      - code
+      - message
+
+

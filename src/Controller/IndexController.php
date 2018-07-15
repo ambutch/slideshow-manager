@@ -23,7 +23,6 @@ class IndexController extends Controller
      */
     public function index(): Response
     {
-        //TODO load the main application
-        return new Response();
+        return $this->render('index.html.twig');
     }
 }

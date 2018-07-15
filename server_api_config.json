@@ -1,0 +1,7 @@
+{
+    "apiPackage": "Api",
+    "invokerPackage": "Api",
+    "bundleName": "Api",
+    "phpLegacySupport": "false",
+    "variableNamingConvention": "camelCase"
+}

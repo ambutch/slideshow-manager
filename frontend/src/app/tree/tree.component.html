@@ -1,0 +1,12 @@
+<div class="sidebar">
+    <dx-tree-view
+            [dataSource]="treeItems"
+            keyExpr="id"
+            displayExpr="name"
+            itemsExpr="children"
+            (onItemClick)="selectItem($event)"
+    ></dx-tree-view>
+</div>
+<div class="content">
+    <app-list [currentDirectory]="currentItem"></app-list>
+</div>
