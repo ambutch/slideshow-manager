@@ -14,6 +14,7 @@ class ListDirectoryTreeResponse extends \Api\Model\ListDirectoryTreeResponse
     {
         parent::__construct();
         $this->root = new DirectoryTreeItem($root);
+        $this->root->setName('(root)');
     }
 
 }

@@ -15,12 +15,14 @@ import {
 } from "devextreme-angular";
 import {HttpClientModule} from "@angular/common/http";
 import {environment} from "../environments/environment";
+import { ItemComponent } from './item/item.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         TreeComponent,
-        ListComponent
+        ListComponent,
+        ItemComponent
     ],
     imports: [
         BrowserModule,

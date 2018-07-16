@@ -1,14 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {
-    DirectoryService,
-    DirectoryTreeItem,
-    ListDirectoryInfoResponse,
-    PhotoInfo,
-    PhotoService,
-    PublishPhotoRequest
-} from "../../api";
-import {PublishPhotoRequestObject} from "./publishPhotoRequest";
-import {isBoolean, isString, isUndefined} from "util";
+import {DirectoryService, DirectoryTreeItem, ListDirectoryInfoResponse, PhotoInfo} from "../../api";
+import {isObject, isString, isUndefined} from "util";
 
 @Component({
     selector: 'app-list',
@@ -27,12 +19,12 @@ export class ListComponent implements OnInit {
     //
 
     @Input() set currentDirectory(currentDirectory: DirectoryTreeItem) {
-        if(!isUndefined(currentDirectory)) {
+        if (!isUndefined(currentDirectory)) {
             this.changeDirectory(currentDirectory);
         }
     }
 
-    constructor(private directoryService: DirectoryService, private photoService: PhotoService) {
+    constructor(private directoryService: DirectoryService) {
     }
 
     onDataLoad(response: ListDirectoryInfoResponse) {
@@ -41,14 +33,8 @@ export class ListComponent implements OnInit {
     }
 
     onPhotoClick(event) {
-        if(!isUndefined(event.itemData) && !isUndefined(event.itemData.dataField) && isString(event.itemData.dataField)) {
+        if (!isUndefined(event.itemData) && !isUndefined(event.itemData.dataField) && isObject(event.itemData.dataField)) {
             this.showPhotoPreview(event.itemData.dataField);
-        }
-    }
-
-    onStateChanged(event) {
-        if(!isUndefined(event.element) && isString(event.element.id) && isBoolean(event.value)) {
-            this.updatePhotoState(event.element.id, event.value);
         }
     }
 
@@ -64,13 +50,9 @@ export class ListComponent implements OnInit {
         this.directoryService.listDirectory(this.directory.id).subscribe(response => this.onDataLoad(response));
     }
 
-    private updatePhotoState(photoId: string, published: boolean) {
-        let request: PublishPhotoRequest = new PublishPhotoRequestObject(photoId, published);
-        this.photoService.publishPhoto(request).subscribe(response => this.updateList());
-    }
-
-    private showPhotoPreview(id: string){
-        this.popUpImageUrl = 'url(http://localhost:8000/image/preview/' + id + ')';
+    private showPhotoPreview(photo: PhotoInfo) {
+        this.popUpImageUrl = 'url(http://localhost:8000/image/preview/' + photo.id + ')';
+        this.popUpTitle = photo.name;
         this.isPopupVisible = true;
     }
 

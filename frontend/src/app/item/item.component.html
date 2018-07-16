@@ -1,0 +1,8 @@
+<div class="image" [style.background-image]="'url(http://localhost:8000/image/thumbnail/' + photo.id + ')'">
+  <dx-check-box
+          class="status"
+          [text]=photo.name
+          [(value)]="photo.published"
+          (onValueChanged)="onStateChanged($event)"
+  ></dx-check-box>
+</div>
