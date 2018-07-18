@@ -36,6 +36,35 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    Intervention\Image\ImageManager:
+        class: Intervention\Image\ImageManager
+        arguments: [driver: 'gd']
+
+    League\Glide\Manipulators\Orientation:
+        class: League\Glide\Manipulators\Orientation
+
+    League\Glide\Manipulators\Crop:
+        class: League\Glide\Manipulators\Crop
+
+    League\Glide\Manipulators\Encode:
+        class: League\Glide\Manipulators\Encode
+
+    League\Glide\Manipulators\Size:
+        class: League\Glide\Manipulators\Size
+
+    League\Glide\Api\Api:
+        class: League\Glide\Api\Api
+        arguments:
+            - '@Intervention\Image\ImageManager'
+            -
+                - '@League\Glide\Manipulators\Orientation'
+                - '@League\Glide\Manipulators\Crop'
+                - '@League\Glide\Manipulators\Size'
+                - '@League\Glide\Manipulators\Encode'
+
+    League\Glide\Responses\SymfonyResponseFactory:
+        class: League\Glide\Responses\SymfonyResponseFactory
+
     League\Glide\Server:
         class: League\Glide\Server
         autowire: false

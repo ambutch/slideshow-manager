@@ -34,7 +34,7 @@ export class ItemComponent implements OnInit {
 
     openDialog() {
         let dialogRef = this.dialog.open(PreviewComponent, {
-            width: '640px',
+            width: '940px',
             data: this.photo
         });
     }

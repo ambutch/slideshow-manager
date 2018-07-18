@@ -83,7 +83,7 @@ class ImageController extends Controller
     public function imageThumbnail(string $id, Request $request): Response
     {
         $photo = $this->photoRepository->findOneById($id);
-        $parameters = self::buildImageParameters($request, true);
+        $parameters = self::buildImageParameters($request, false);
         return $this->generateImageResponse($photo, $parameters);
     }
 
