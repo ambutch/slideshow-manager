@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
     <span>{{title}}</span>
     <span class="spacer"></span>
-    <button mat-stroked-button>Сканировать</button>
+    <button mat-stroked-button [disabled]="busy" (click)="update()">Обновить папки</button>
 </mat-toolbar>
 <app-tree></app-tree>

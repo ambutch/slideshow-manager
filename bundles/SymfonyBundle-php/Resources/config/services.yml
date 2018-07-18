@@ -21,6 +21,13 @@ services:
     api.service.validator:
         class: "%api.validator%"
 
+    api.controller.command:
+        class: Api\Controller\CommandController
+        calls:
+         - [setSerializer, ['@api.service.serializer']]
+         - [setValidator,  ['@api.service.validator']]
+         - [setApiServer,  ['@api.api.api_server']]
+
     api.controller.directory:
         class: Api\Controller\DirectoryController
         calls:

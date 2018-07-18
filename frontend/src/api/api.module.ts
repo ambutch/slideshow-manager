@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Configuration } from './configuration';
 
+import { CommandService } from './api/command.service';
 import { DirectoryService } from './api/directory.service';
 import { PhotoService } from './api/photo.service';
 
@@ -11,6 +12,7 @@ import { PhotoService } from './api/photo.service';
   declarations: [],
   exports:      [],
   providers: [
+    CommandService,
     DirectoryService,
     PhotoService ]
 })

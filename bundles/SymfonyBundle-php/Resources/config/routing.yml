@@ -2,6 +2,13 @@
 # https://github.com/swagger-api/swagger-codegen
 # Do not edit the class manually.
 
+# command
+api_command_update:
+    path:     /update
+    methods:  [POST]
+    defaults:
+        _controller: api.controller.command::updateAction
+
 # directory
 api_directory_listdirectory:
     path:     /directory/{id}

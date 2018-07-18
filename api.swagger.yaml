@@ -77,6 +77,16 @@ paths:
         404:
           $ref: "#/responses/NotFound"
 
+  /update:
+    post:
+      tags:
+        - Command
+      operationId: update
+      summary: Updates the database
+      responses:
+        200:
+          description: OK
+
 parameters:
   listPageNumber:
     in: query
