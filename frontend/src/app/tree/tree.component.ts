@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DirectoryService, DirectoryTreeItem, ListDirectoryTreeResponse} from "../../api";
 import {isUndefined} from "util";
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
 
 @Component({
     selector: 'app-tree',
@@ -9,26 +11,32 @@ import {isUndefined} from "util";
     providers: [DirectoryService]
 })
 export class TreeComponent implements OnInit {
-    public treeItems: DirectoryTreeItem[] = [];
     public currentItem: DirectoryTreeItem;
 
+    public nestedTreeControl: NestedTreeControl<DirectoryTreeItem>;
+    public nestedDataSource: MatTreeNestedDataSource<DirectoryTreeItem>;
+
     constructor(private service: DirectoryService) {
+        this.nestedTreeControl = new NestedTreeControl<DirectoryTreeItem>(this._getChildren);
+        this.nestedDataSource = new MatTreeNestedDataSource();
         this.service.listDirectoryTree().subscribe(response => this.onDataLoad(response));
     }
 
     onDataLoad(response: ListDirectoryTreeResponse) {
-        this.treeItems[0] = response.root;
-        this.currentItem = this.treeItems[0];
+        this.nestedDataSource.data = response.root.children;
+        this.currentItem = this.nestedDataSource.data[0];
     }
 
-    selectItem(e) {
-        if(!isUndefined(e.itemData)) {
-            this.currentItem = e.itemData;
-        }
+    selectItem(directory: DirectoryTreeItem) {
+        this.currentItem = directory;
     }
+
+    hasNestedChild = (_: number, nodeData: DirectoryTreeItem) => nodeData.children.length > 0;
 
     ngOnInit() {
 
     }
+
+    private _getChildren = (node: DirectoryTreeItem) => node.children;
 
 }

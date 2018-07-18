@@ -1,42 +1,16 @@
-::ng-deep .dx-tile-content {
-    height: 100%;
-    padding: 0;
-    position: relative;
-}
-::ng-deep .dx-tile-content .image {
-    height: 100%;
-    width: 100%;
-    background-position: center;
-    background-size: cover;
+.photo-list {
+    height: auto;
+    max-height: 900px;
+    min-height: 400px;
     padding: 10px;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
-::ng-deep .dx-tile {
-    border: 1px solid #999;
-}
-::ng-deep .dx-tile.dx-state-hover {
-    border-color: #EEE;
-}
-::ng-deep .dx-tile-content .status {
-    font-size: 12px;
-    position: absolute;
-    background-color: black;
-    color: white;
-    opacity: 0.6;
-    padding: 2px;
-    left: 9px;
-    top: 9px;
-}
-::ng-deep .dx-popup-content {
-    height: 100%;
-    padding: 0;
-    position: relative;
-}
-::ng-deep .dx-popup-content .image {
-    height: 100%;
-    width: 100%;
-    background-position: center;
-    background-size: cover;
-    padding: 10px;
-    display: block;
+
+.photo-item {
+    display: flex;
+    width: 200px;
+    height: 200px;
+    margin: 10px 10px 30px;
 }

@@ -1,7 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PhotoInfo, PhotoService, PublishPhotoRequest} from "../../api";
-import {PublishPhotoRequestObject} from "../list/publishPhotoRequest";
+import {PublishPhotoRequestObject} from "../model/publishPhotoRequest";
 import {isBoolean, isString, isUndefined} from "util";
+import {MatDialog} from "@angular/material";
+import {PreviewComponent} from "../preview/preview.component";
 
 @Component({
     selector: 'app-item',
@@ -9,25 +11,35 @@ import {isBoolean, isString, isUndefined} from "util";
     styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
-
     @Input() photo: PhotoInfo;
 
-    constructor(private photoService: PhotoService) {
+    get published(): boolean {
+        return this.photo.published;
+    }
+
+    set published(value: boolean) {
+        let request: PublishPhotoRequest = new PublishPhotoRequestObject(this.photo.id, value);
+        this.photoService.publishPhoto(request).subscribe(
+            response => this.photo.published = value,
+            response => this.photo.published = !value
+        );
+    }
+
+
+    constructor(private photoService: PhotoService, private dialog: MatDialog) {
     }
 
     ngOnInit() {
     }
 
-    onStateChanged(event) {
-        if(!isUndefined(event.event)){
-            event.event.stopPropagation();
-            if(isBoolean(event.value)) {
-                this.updatePhotoState(event.value);
-            }
-        }
+    openDialog() {
+        let dialogRef = this.dialog.open(PreviewComponent, {
+            width: '640px',
+            data: this.photo
+        });
     }
 
-    private updatePhotoState(published: boolean) {
+    public updatePhotoState(published: boolean) {
         let request: PublishPhotoRequest = new PublishPhotoRequestObject(this.photo.id, published);
         this.photoService.publishPhoto(request).subscribe(
             response => this.photo.published = published,

@@ -1,30 +1,6 @@
-<dx-popup
-        [title]="popUpTitle"
-        [(visible)]="isPopupVisible"
-        [fullScreen]="true"
-        [closeOnBackButton]="true"
-        [closeOnOutsideClick]="true"
->
-    <div *dxTemplate="let data of 'content'">
-        <div class="image" [(style.background-image)]="popUpImageUrl"></div>
-    </div>
-</dx-popup>
-<dx-tile-view
-        #tileView
-        [height]="390"
-        [baseItemHeight]="120"
-        [baseItemWidth]="185"
-        width="100%"
-        [itemMargin]="10"
-        [direction]="'vertical'"
-        (onItemClick)="onPhotoClick($event)"
->
-    <dxi-item
-            *ngFor="let photo of photos"
-            [widthRatio]="1"
-            [heightRatio]="1"
-            [dataField]="photo"
-    >
+<div class="photo-list">
+    <div *ngFor="let photo of photos" class="photo-item">
         <app-item [photo]="photo"></app-item>
-    </dxi-item>
-</dx-tile-view>
+    </div>
+</div>
+

@@ -1,8 +1,12 @@
-<div class="image" [style.background-image]="'url(http://localhost:8000/image/thumbnail/' + photo.id + ')'">
-  <dx-check-box
-          class="status"
-          [text]=photo.name
-          [(value)]="photo.published"
-          (onValueChanged)="onStateChanged($event)"
-  ></dx-check-box>
-</div>
+<div
+        class="image"
+        [style.background-image]="'url(http://localhost:8000/image/thumbnail/' + photo.id + '?w=200&h=200)'"
+        [style.background-size]="'contain'"
+        (click)="openDialog()"
+></div>
+<mat-checkbox
+        class="checkbox"
+        [(checked)]="published"
+        (change)="updatePhotoState($event.checked)">
+    {{photo.name.length > 20 ? ((photo.name | slice : 0 : 18) + '...') : photo.name}}
+</mat-checkbox>

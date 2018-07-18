@@ -1,5 +1,6 @@
-<div height="100%">
-    <div class="header"><h1>{{title}}</h1></div>
-    <app-tree class="layout"></app-tree>
-</div>
-
+<mat-toolbar color="primary">
+    <span>{{title}}</span>
+    <span class="spacer"></span>
+    <button mat-stroked-button>Сканировать</button>
+</mat-toolbar>
+<app-tree></app-tree>

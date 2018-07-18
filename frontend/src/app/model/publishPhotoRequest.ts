@@ -9,7 +9,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import {PublishPhotoRequest} from "../../api";
+import {PublishPhotoRequest} from "../../api/index";
 
 
 export class PublishPhotoRequestObject implements PublishPhotoRequest {
