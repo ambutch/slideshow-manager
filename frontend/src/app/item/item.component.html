@@ -1,6 +1,6 @@
 <div
         class="image"
-        [style.background-image]="'url(http://localhost:8000/image/thumbnail/' + photo.id + '?w=200&h=200)'"
+        [style.background-image]="'url(' + baseUrl + '/image/thumbnail/' + photo.id + '?w=200&h=200)'"
         [style.background-size]="'contain'"
         (click)="openDialog()"
 ></div>

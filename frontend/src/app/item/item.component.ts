@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PhotoInfo, PhotoService, PublishPhotoRequest} from "../../api";
 import {PublishPhotoRequestObject} from "../model/publishPhotoRequest";
-import {isBoolean, isString, isUndefined} from "util";
 import {MatDialog} from "@angular/material";
 import {PreviewComponent} from "../preview/preview.component";
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-item',
@@ -12,6 +12,7 @@ import {PreviewComponent} from "../preview/preview.component";
 })
 export class ItemComponent implements OnInit {
     @Input() photo: PhotoInfo;
+    public baseUrl: string = environment.apiUrl;
 
     get published(): boolean {
         return this.photo.published;

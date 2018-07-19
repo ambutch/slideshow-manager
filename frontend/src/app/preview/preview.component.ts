@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {PhotoInfo} from "../../api";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-preview',
@@ -9,6 +10,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 
 export class PreviewComponent implements OnInit {
+
+    public baseUrl: string = environment.apiUrl;
 
     constructor(
         public dialogRef: MatDialogRef<PreviewComponent>,

@@ -1,6 +1,6 @@
 <label>{{data.name}}</label>
 <div
         class="image-preview"
-        [style.background-image]="'url(http://localhost:8000/image/thumbnail/' + data.id + '?w=900&h=900)'"
+        [style.background-image]="'url(' + baseUrl + '/image/thumbnail/' + data.id + '?w=900&h=900)'"
         [style.background-size]="'contain'"
 ></div>
