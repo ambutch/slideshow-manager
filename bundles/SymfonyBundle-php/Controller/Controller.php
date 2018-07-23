@@ -146,12 +146,6 @@ class Controller
             return null;
         }
 
-        if (!$this->container->get('kernel')->isDebug()) {
-            return [
-                'message'  => $exception->getMessage(),
-            ];
-        }
-
         return [
             'message'  => $exception->getMessage(),
             'type'     => get_class($exception),

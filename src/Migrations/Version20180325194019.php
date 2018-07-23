@@ -25,6 +25,7 @@ class Version20180325194019 extends AbstractMigration
         , parent_id CHAR(36) NOT NULL --(DC2Type:uuid)
         , base_name VARCHAR(255) NOT NULL, full_path VARCHAR(1024) NOT NULL, published BOOLEAN DEFAULT \'0\' NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_14B78418727ACA70 ON photo (parent_id)');
+        $this->addSql('INSERT INTO directory (id, parent_id, root_id, name, lft, rgt, lvl) VALUES (\'910cf3a1-470b-4d23-b865-e5117d5c72ee\', null, \'910cf3a1-470b-4d23-b865-e5117d5c72ee\', \'\', 1, 2, 0);');
     }
 
     public function down(Schema $schema)
