@@ -123,7 +123,6 @@ class PublishManager
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Flysystem\FileNotFoundException
-     * @throws \League\Flysystem\FileExistsException
      */
     protected function publishPhoto(Photo $photo): void
     {
