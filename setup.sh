@@ -19,5 +19,5 @@ bin/console app:sync
 
 # Build the frontend
 cd frontend
-ng build --output-path=../public/spa
+ng build
 cd ..

@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Directory|null   findOneBy(array $criteria, array $orderBy = null)
  * @method Directory[]      findAll()
  * @method Directory[]      findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method Directory[]      getRootNodes($sortByField = null, $direction = 'ASC')
+ * @method Directory[]      getRootNodes($sortByField = 'name', $direction = 'ASC')
  * @method array            getNodesHierarchy($node = null, $direct = false, array $options = [], $includeNode = false)
  * @method Directory[]|null getChildren($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false);
  * @method int              childCount($node = null, $direct = false);

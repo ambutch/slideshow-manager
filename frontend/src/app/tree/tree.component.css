@@ -1,6 +1,7 @@
 .drawer {
     width: 20%;
     min-width: 200px;
+    height: 100%;
 }
 
 .tree-invisible {

@@ -1,0 +1,9 @@
+{
+  "runtime.js": "spa/runtime.a66f828dca56eeb90e02.js",
+  "styles.css": "spa/styles.538b43b15d477ebe8727.css",
+  "polyfills.js": "spa/polyfills.7a0e6866a34e280f48e7.js",
+  "main.js": "spa/main.5337efcf6fc26876bff3.js",
+  "favicon.ico": "spa/favicon.ico",
+  "3rdpartylicenses.txt": "spa/3rdpartylicenses.txt",
+  "index.html": "spa/index.html"
+}
