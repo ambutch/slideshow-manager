@@ -53,7 +53,6 @@ class PublishManager
      * @param bool $state
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
-     * @throws \League\Flysystem\FileExistsException
      * @throws \RuntimeException
      * @throws \Doctrine\ORM\ORMException
      * @throws \League\Flysystem\FileNotFoundException
@@ -72,7 +71,6 @@ class PublishManager
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \RuntimeException
-     * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
      */
     public function republishAll(): void
@@ -86,7 +84,6 @@ class PublishManager
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \League\Flysystem\FileExistsException
      * @throws \RuntimeException
      * @throws \League\Flysystem\FileNotFoundException
      */

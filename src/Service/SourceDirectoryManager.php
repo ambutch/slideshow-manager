@@ -77,7 +77,6 @@ class SourceDirectoryManager
 
     /**
      * @return Directory
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\ORMException
      */
@@ -153,11 +152,13 @@ class SourceDirectoryManager
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \LogicException
      * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     protected function synchronizeDirectoryData(Directory $directory, DirectoryAuditor $audit): Directory
     {
         foreach ($audit->getDeletedChildren() as $deletedChild) {
+            foreach ($deletedChild->getPhotosRecurse() as $deletedPhoto) {
+                $this->entityManager->remove($deletedPhoto);
+            }
             $directory->removeChild($deletedChild);
             $this->entityManager->remove($deletedChild);
         }

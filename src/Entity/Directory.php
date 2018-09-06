@@ -188,6 +188,20 @@ class Directory
     }
 
     /**
+     * @return Photo[]
+     */
+    public function getPhotosRecurse(): array
+    {
+        $photos = [];
+        foreach ($this->children as $child) {
+            /** @var Directory $child */
+            /** @noinspection SlowArrayOperationsInLoopInspection */
+            $photos = array_merge($photos, $child->getPhotosRecurse());
+        }
+        return array_merge($photos, $this->getPhotos());
+    }
+
+    /**
      * @param Directory $child
      * @return Directory
      */
