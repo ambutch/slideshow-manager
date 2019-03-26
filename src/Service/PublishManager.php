@@ -56,6 +56,7 @@ class PublishManager
      * @throws \RuntimeException
      * @throws \Doctrine\ORM\ORMException
      * @throws \League\Flysystem\FileNotFoundException
+     * @throws \InvalidArgumentException
      */
     public function changeState(Photo $photo, bool $state): void
     {
@@ -70,8 +71,8 @@ class PublishManager
     /**
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
-     * @throws \RuntimeException
      * @throws \League\Flysystem\FileNotFoundException
+     * @throws \InvalidArgumentException
      */
     public function republishAll(): void
     {
@@ -86,8 +87,9 @@ class PublishManager
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \RuntimeException
      * @throws \League\Flysystem\FileNotFoundException
+     * @throws \InvalidArgumentException
      */
-    public function sunchronyzeWithDb(): void
+    public function synchronizeWithDb(): void
     {
         foreach ($this->dstFileSystem->listContents('', true) as $item) {
             if (self::TYPE_FILE === $item['type']) {
@@ -107,10 +109,8 @@ class PublishManager
                 if (!$this->dstFileSystem->has($fullPath)) {
                     $this->publishPhoto($photo);
                 }
-            } else {
-                if ($this->dstFileSystem->has($fullPath)) {
-                    $this->unpublishPhoto($photo);
-                }
+            } else if ($this->dstFileSystem->has($fullPath)) {
+                $this->unpublishPhoto($photo);
             }
         }
     }
@@ -120,6 +120,7 @@ class PublishManager
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Flysystem\FileNotFoundException
+     * @throws \InvalidArgumentException
      */
     protected function publishPhoto(Photo $photo): void
     {

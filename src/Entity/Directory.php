@@ -78,6 +78,7 @@ class Directory
      * Directory constructor.
      * @param string $name
      * @param Directory|null $parent
+     * @throws \Ramsey\Uuid\Exception\InvalidUuidStringException
      */
     public function __construct(string $name = null, Directory $parent = null)
     {

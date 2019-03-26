@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection BadExceptionsProcessingInspection */
+
 /**
  * author: abuchatskiy
  */
@@ -10,10 +11,6 @@ use Api\Model\PublishPhotoRequest;
 use Api\PhotoApiInterface;
 use App\Service\ApiManager\Photo as PhotoManager;
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\ORMException;
-use League\Flysystem\FileExistsException;
-use League\Flysystem\FileNotFoundException;
-use League\Glide\Filesystem\FilesystemException;
 
 class Photo implements PhotoApiInterface
 {

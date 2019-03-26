@@ -6,7 +6,6 @@ namespace App\Repository;
 use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityNotFoundException;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -22,6 +21,7 @@ class PhotoRepository extends ServiceEntityRepository
     /**
      * PhotoRepository constructor.
      * @param RegistryInterface $registry
+     * @throws \LogicException
      */
     public function __construct(RegistryInterface $registry)
     {

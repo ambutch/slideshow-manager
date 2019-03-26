@@ -9,18 +9,15 @@ namespace App\Controller;
 use App\Entity\Photo;
 use App\Repository\PhotoRepository;
 use League\Glide\Server as Glide;
-use LogicException;
-use Ramsey\Uuid\Uuid;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ImageController
  * @package App\Controller
  */
-class ImageController extends Controller
+class ImageController extends AbstractController
 {
 
     /**
@@ -79,6 +76,7 @@ class ImageController extends Controller
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \InvalidArgumentException
      */
     public function imageThumbnail(string $id, Request $request): Response
     {
@@ -92,6 +90,7 @@ class ImageController extends Controller
      * @param Request $request
      * @return Response
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \InvalidArgumentException
      */
     public function imagePreview(string $id, Request $request): Response
     {

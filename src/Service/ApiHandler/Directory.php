@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection ReturnTypeCanBeDeclaredInspection */
+/** @noinspection PhpOptionalBeforeRequiredParametersInspection */
+
 /**
  * author: abuchatskiy
  */
@@ -39,6 +41,7 @@ class Directory implements DirectoryApiInterface
      *
      * @return \Api\Model\ListDirectoryTreeResponse
      *
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function listDirectoryTree(&$responseCode, array &$responseHeaders)
     {
@@ -60,6 +63,7 @@ class Directory implements DirectoryApiInterface
      *
      * @return \Api\Model\ListDirectoryInfoResponse
      *
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function listDirectory(string $id, int $page = null, int $limit = null, string $sort = null, string $dir = null, &$responseCode, array &$responseHeaders)
     {

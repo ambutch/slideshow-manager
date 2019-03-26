@@ -59,7 +59,6 @@ class SynchronizeCommand extends Command
      * @throws \League\Glide\Filesystem\FilesystemException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \RuntimeException
-     * @throws \League\Flysystem\FileExistsException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
@@ -70,7 +69,7 @@ class SynchronizeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->directoryManager->scan();
-        $this->publishManager->sunchronyzeWithDb();
+        $this->publishManager->synchronizeWithDb();
         $output->writeln('Done!');
     }
 }

@@ -77,8 +77,8 @@ class SourceDirectoryManager
 
     /**
      * @return Directory
-     * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Ramsey\Uuid\Exception\InvalidUuidStringException
      */
     protected function getRootDirectory(): Directory
     {
@@ -149,7 +149,6 @@ class SourceDirectoryManager
      * @param Directory $directory
      * @param DirectoryAuditor $audit
      * @return Directory
-     * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \LogicException
      * @throws \Doctrine\ORM\ORMException
      */

@@ -46,6 +46,7 @@ class ImageManipulator extends Server
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Flysystem\FileNotFoundException
      * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \InvalidArgumentException
      */
     public function publishImage(string $path, array $params): void
     {

@@ -3,7 +3,6 @@
 parameters:
     maxPhotoWidth: '%env(resolve:MAX_WIDTH)%'
     maxPhotoHeight: '%env(resolve:MAX_HEIGHT)%'
-    locale: 'en'
 
 services:
     # default configuration for services in *this* file

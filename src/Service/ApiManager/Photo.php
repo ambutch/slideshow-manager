@@ -41,10 +41,11 @@ class Photo
      * @param PublishPhotoRequest $request
      * @throws \Doctrine\ORM\EntityNotFoundException
      * @throws \Doctrine\ORM\ORMException
-     * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function changePhotoState(PublishPhotoRequest $request): void
     {

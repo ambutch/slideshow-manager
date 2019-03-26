@@ -33,11 +33,13 @@ class Command implements CommandApiInterface
      * @return void
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \League\Flysystem\FileExistsException
      * @throws \League\Flysystem\FileNotFoundException
      * @throws \League\Glide\Filesystem\FileNotFoundException
      * @throws \League\Glide\Filesystem\FilesystemException
+     * @throws \LogicException
+     * @throws \RuntimeException
      */
     public function update(&$responseCode, array &$responseHeaders)
     {

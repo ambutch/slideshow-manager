@@ -7,8 +7,6 @@ use App\Entity\Directory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,6 +24,7 @@ class DirectoryRepository extends NestedTreeRepository implements ServiceEntityR
     /**
      * DirectoryRepository constructor.
      * @param RegistryInterface $registry
+     * @throws \Gedmo\Exception\InvalidMappingException
      */
     public function __construct(RegistryInterface $registry)
     {

@@ -49,6 +49,7 @@ class Photo
      * @param Directory $parent
      * @param string $baseName
      * @param string $fullPath
+     * @throws \Ramsey\Uuid\Exception\InvalidUuidStringException
      */
     public function __construct(Directory $parent, string $baseName, string $fullPath)
     {
